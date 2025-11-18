@@ -1,0 +1,1 @@
+Example for using Swift with STM32CubeMX project and newlib
