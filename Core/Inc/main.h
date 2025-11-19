@@ -50,6 +50,7 @@ extern "C" {
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
+void Initialize_Hardware(void);
 void Error_Handler(void);
 void Switch_On_LED();
 void Switch_Off_LED();

@@ -80,10 +80,9 @@ void Switch_Off_LED() {
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
+  * @brief  Initialize hardware
   */
-int main(void)
+void Initialize_Hardware(void)
 {
 
   /* USER CODE BEGIN 1 */
@@ -110,25 +109,8 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  return;
   /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
-
-    printf("Hello, world!\n");
-
-    Switch_On_LED();
-    HAL_Delay(500);
-    Switch_Off_LED();
-    HAL_Delay(500);
-
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
 }
 
 /**
