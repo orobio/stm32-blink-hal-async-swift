@@ -69,6 +69,14 @@ int __io_putchar(int ch) {
   return ch;
 }
 
+void Switch_On_LED() {
+    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+}
+
+void Switch_Off_LED() {
+    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -112,7 +120,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     printf("Hello, world!\n");
-    HAL_Delay(1000);
+
+    Switch_On_LED();
+    HAL_Delay(500);
+    Switch_Off_LED();
+    HAL_Delay(500);
 
     /* USER CODE BEGIN 3 */
   }

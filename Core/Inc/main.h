@@ -51,6 +51,8 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void Switch_On_LED();
+void Switch_Off_LED();
 
 /* USER CODE BEGIN EFP */
 
