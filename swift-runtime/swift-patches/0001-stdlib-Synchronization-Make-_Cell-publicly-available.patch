@@ -1,0 +1,54 @@
+From da2a0dafa611d3f1a5385581b619a1e65dd430aa Mon Sep 17 00:00:00 2001
+From: Manolo van Ee <manolo.vanee@gmail.com>
+Date: Thu, 11 Dec 2025 22:01:01 +0100
+Subject: [PATCH 1/4] [stdlib Synchronization] Make _Cell publicly available
+
+---
+ stdlib/public/Synchronization/CMakeLists.txt | 1 +
+ stdlib/public/Synchronization/Cell.swift     | 7 +++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/stdlib/public/Synchronization/CMakeLists.txt b/stdlib/public/Synchronization/CMakeLists.txt
+index 90c1e3dfb7a..36c0bd0ee20 100644
+--- a/stdlib/public/Synchronization/CMakeLists.txt
++++ b/stdlib/public/Synchronization/CMakeLists.txt
+@@ -180,6 +180,7 @@ if(SWIFT_SHOULD_BUILD_EMBEDDED_STDLIB)
+       IS_FRAGILE
+       
+       ${SWIFT_SYNCHRONIZATION_ATOMIC_SOURCES}
++      Cell.swift
+       GYB_SOURCES
+         ${SWIFT_SYNCHRONIZATION_GYB_SOURCES}
+ 
+diff --git a/stdlib/public/Synchronization/Cell.swift b/stdlib/public/Synchronization/Cell.swift
+index 75dde59cdcf..c169ac7b5fa 100644
+--- a/stdlib/public/Synchronization/Cell.swift
++++ b/stdlib/public/Synchronization/Cell.swift
+@@ -14,13 +14,12 @@ import Builtin
+ 
+ @available(SwiftStdlib 6.0, *)
+ @frozen
+-@usableFromInline
+ @_rawLayout(like: Value, movesAsLike)
+-internal struct _Cell<Value: ~Copyable>: ~Copyable {
++public struct _Cell<Value: ~Copyable>: ~Copyable {
+   @available(SwiftStdlib 6.0, *)
+   @_alwaysEmitIntoClient
+   @_transparent
+-  internal var _address: UnsafeMutablePointer<Value> {
++  public var _address: UnsafeMutablePointer<Value> {
+     unsafe UnsafeMutablePointer<Value>(_rawAddress)
+   }
+ 
+@@ -34,7 +33,7 @@ internal struct _Cell<Value: ~Copyable>: ~Copyable {
+   @available(SwiftStdlib 6.0, *)
+   @_alwaysEmitIntoClient
+   @_transparent
+-  internal init(_ initialValue: consuming Value) {
++  public init(_ initialValue: consuming Value) {
+     unsafe _address.initialize(to: initialValue)
+   }
+ 
+-- 
+2.51.0
+

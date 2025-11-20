@@ -1,6 +1,8 @@
+import _Concurrency
+
 @main
 struct Main {
-    static func main() {
+    static func main() async {
         Initialize_Hardware();
 
         while true {

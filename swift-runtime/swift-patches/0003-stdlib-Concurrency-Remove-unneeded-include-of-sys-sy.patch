@@ -1,0 +1,28 @@
+From db6831bcfa8e5029856551fe5b6ff5df89e04d67 Mon Sep 17 00:00:00 2001
+From: Manolo van Ee <manolo.vanee@gmail.com>
+Date: Thu, 11 Dec 2025 22:01:02 +0100
+Subject: [PATCH 3/4] [stdlib Concurrency] Remove unneeded include of
+ sys/syscall.h
+
+---
+ stdlib/public/Concurrency/Actor.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/stdlib/public/Concurrency/Actor.cpp b/stdlib/public/Concurrency/Actor.cpp
+index e6b843cfb90..9c827770a7b 100644
+--- a/stdlib/public/Concurrency/Actor.cpp
++++ b/stdlib/public/Concurrency/Actor.cpp
+@@ -72,10 +72,6 @@
+ #include <unwind.h>
+ #endif
+ 
+-#if defined(__ELF__)
+-#include <sys/syscall.h>
+-#endif
+-
+ #if defined(_WIN32)
+ #include <io.h>
+ #endif
+-- 
+2.51.0
+

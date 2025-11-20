@@ -1,0 +1,51 @@
+From 4d71d09be421f7d9b32032ddd42093bd1190ed40 Mon Sep 17 00:00:00 2001
+From: Manolo van Ee <manolo.vanee@gmail.com>
+Date: Thu, 11 Dec 2025 22:01:02 +0100
+Subject: [PATCH 4/4] [stdlib Concurrency] Add compiler flags for
+ armv7em-none-none-eabi with newlib
+
+---
+ stdlib/public/Concurrency/CMakeLists.txt | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/stdlib/public/Concurrency/CMakeLists.txt b/stdlib/public/Concurrency/CMakeLists.txt
+index 70757822f5f..2c16d6968ac 100644
+--- a/stdlib/public/Concurrency/CMakeLists.txt
++++ b/stdlib/public/Concurrency/CMakeLists.txt
+@@ -290,7 +290,8 @@ if(SWIFT_SHOULD_BUILD_EMBEDDED_STDLIB AND SWIFT_SHOULD_BUILD_EMBEDDED_CONCURRENC
+     list(GET list 2 triple)
+ 
+     if (SWIFT_HOST_VARIANT STREQUAL "linux")
+-      if(NOT "${mod}" MATCHES "-linux-gnu$")
++      if(NOT "${mod}" MATCHES "-linux-gnu$" AND
++        NOT "${mod}" STREQUAL "armv7em-none-none-eabi")
+         continue()
+       endif()
+       set(extra_c_compile_flags)
+@@ -316,6 +317,23 @@ if(SWIFT_SHOULD_BUILD_EMBEDDED_STDLIB AND SWIFT_SHOULD_BUILD_EMBEDDED_CONCURRENC
+       set(extra_swift_compile_flags)
+     endif()
+ 
++    if("${mod}" MATCHES "armv7em-none-none-eabi")
++      set(ARM_NONE_EABI_PATH /usr/lib/arm-none-eabi)
++
++      set(extra_c_compile_flags
++        -isystem${ARM_NONE_EABI_PATH}/include/c++/13.2.1/arm-none-eabi
++        -isystem${ARM_NONE_EABI_PATH}/include/c++/13.2.1
++        -isystem${ARM_NONE_EABI_PATH}/include
++        -U_GLIBCXX_ASSERTIONS
++        -D_POSIX_TIMERS
++        -mthumb -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -stdlib=libstdc++ -fshort-enums
++      )
++
++      set(extra_swift_compile_flags
++        -Xcc -mthumb -Xcc -mcpu=cortex-m4 -Xcc -mfpu=fpv4-sp-d16 -Xcc -mfloat-abi=hard -Xcc -fshort-enums
++      )
++    endif()
++
+     set(SWIFT_SDK_embedded_THREADING_PACKAGE none)
+     set(SWIFT_SDK_embedded_ARCH_${arch}_MODULE "${mod}")
+     set(SWIFT_SDK_embedded_ARCH_${mod}_MODULE "${mod}")
+-- 
+2.51.0
+
