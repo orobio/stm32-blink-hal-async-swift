@@ -233,6 +233,16 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+// Declare the Swift ContinuousClock interrupt handler.
+void swift_ContinuousClock_HAL_IncTick(void);
+
+// Override HAL_IncTick to make sure the Swift ContinuousClock interrupt handler is called.
+void HAL_IncTick(void)
+{
+	uwTick += uwTickFreq;
+	swift_ContinuousClock_HAL_IncTick();
+}
+
 /* USER CODE END 4 */
 
 /**

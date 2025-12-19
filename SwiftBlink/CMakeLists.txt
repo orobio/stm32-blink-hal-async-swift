@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 add_library(SwiftBlinkImpl STATIC)
 
 file(GLOB_RECURSE SWIFT_SOURCES CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/Support/*.swift
     ${CMAKE_CURRENT_SOURCE_DIR}/*.swift
 )
 
