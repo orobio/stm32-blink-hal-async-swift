@@ -28,6 +28,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
+# Workaround for failing Swift compiler test in older CMake versions
+if(CMAKE_VERSION VERSION_LESS "3.29")
+    message(STATUS "CMake version < 3.29: Assuming Swift compiler works and has the correct version")
+    set(CMAKE_Swift_COMPILER_WORKS TRUE)
+endif()
+
 # Enable CMake support for ASM, C and Swift languages
 enable_language(C ASM Swift)
 
