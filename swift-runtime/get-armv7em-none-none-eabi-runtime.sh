@@ -31,3 +31,11 @@ cp ${SWIFT_EMBEDDED_PATH}/libcxxstdlibshim.h embedded/
 # Libraries
 cp ${SWIFT_EMBEDDED_PATH}/armv7em-none-none-eabi embedded/armv7em-none-none-eabi -r
 
+# Try to copy ExecutorImpl.h
+EXECUTOR_IMPL_H_PATH=${SWIFT_EMBEDDED_PATH}/../../../../../../swift/stdlib/public/Concurrency/ExecutorImpl.h
+if [[ -f ${EXECUTOR_IMPL_H_PATH} ]]; then
+    cp ${EXECUTOR_IMPL_H_PATH} embedded/
+else
+    echo "warning: skipped ExecutorImpl.h"
+fi
+

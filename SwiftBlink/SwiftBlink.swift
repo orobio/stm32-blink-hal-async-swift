@@ -7,17 +7,6 @@ struct Main {
 
         try await withThrowingDiscardingTaskGroup { group in
             // #################
-            // Run tasklets
-            // #################
-            group.addTask {
-                // Just using a task to execute the tasklets. This could be integrated into a custom task executor.
-                while true {
-                    TaskletExecutor.executeAllScheduledTasklets()
-                    await Task.yield()
-                }
-            }
-
-            // #################
             // Blink LED
             // #################
             group.addTask {

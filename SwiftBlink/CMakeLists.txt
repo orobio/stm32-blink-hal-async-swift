@@ -20,6 +20,12 @@ target_link_libraries(SwiftBlinkImpl PRIVATE
     m
 )
 
+execute_process(
+    COMMAND ${CMAKE_C_COMPILER} --print-sysroot
+    OUTPUT_VARIABLE C_SYSROOT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 target_compile_options(SwiftBlinkImpl PRIVATE
     -target armv7em-none-none-eabi
     "SHELL:-Xcc -mthumb"
@@ -30,11 +36,12 @@ target_compile_options(SwiftBlinkImpl PRIVATE
     "SHELL:-Xcc -fshort-enums"
     "SHELL:-Xcc -DSTM32F411xE"
     "SHELL:-Xcc -DUSE_HAL_DRIVER"
+    "SHELL:-Xcc -isystem${C_SYSROOT}/include"
     -Osize
     -wmo
     -enable-experimental-feature Embedded
     -Xfrontend -function-sections
-    -import-bridging-header ${CMAKE_CURRENT_SOURCE_DIR}/../Core/Inc/main.h
+    -import-bridging-header ${CMAKE_CURRENT_SOURCE_DIR}/BridgingHeader.h
 )
 
 # Use interface library to fix circular dependencies between SwiftBlinkImpl and the runtime libraries.
@@ -45,7 +52,6 @@ target_link_libraries(SwiftBlink INTERFACE
     -Wl,--start-group
     SwiftBlinkImpl
     ${CMAKE_CURRENT_SOURCE_DIR}/../swift-runtime/embedded/armv7em-none-none-eabi/libswift_Concurrency.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/../swift-runtime/embedded/armv7em-none-none-eabi/libswift_ConcurrencyDefaultExecutor.a
     -Wl,--end-group
     stdc++
 )

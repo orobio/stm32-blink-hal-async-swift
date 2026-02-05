@@ -9,6 +9,7 @@ This provides a cmake project for the [NUCLEO-F411RE](https://www.st.com/en/eval
 - A custom pre-built armv7em-none-none-eabi swift-runtime, which is compiled against newlib/libstdc++ and includes the concurrency runtime. See [swift-runtime/README.md](swift-runtime/README.md)
 - A [ContinuousClock](SwiftBlink/Support/ContinuousClock.swift) implementation that makes use of the standard 1 ms system timer provided by HAL.
 - Functionality for supporting the ContinuousClock implementation, like [TaskletExecutor](SwiftBlink/Support/TaskletExecutor.swift) and [InterruptGuard](SwiftBlink/Support/InterruptGuard.swift).
+- A [GlobalExecutor](SwiftBlink/Support/GlobalExecutor.swift), which provides the main run loop for all async jobs and tasklets.
 - A [Swift async main function](SwiftBlink/SwiftBlink.swift), which runs a taskgroup for concurrently blinking an LED and printing the uptime every second.
 
 ### Changes to generated source files
