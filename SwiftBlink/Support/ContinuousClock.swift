@@ -4,7 +4,7 @@ import _Concurrency
 ///
 /// Runs with a resolution of 1 millisecond.
 ///
-struct ContinuousClock: Clock {
+struct ContinuousClock {
     public struct Instant: InstantProtocol, CustomStringConvertible {
         fileprivate var _value: Swift.Duration
 
@@ -53,8 +53,12 @@ struct ContinuousClock: Clock {
         Self.uptime
     }
 
-    func sleep(until deadline: Instant, tolerance: Duration?) async throws {
+    func sleep(until deadline: Instant, tolerance: Duration?) async throws(CancellationError) {
         try await ContinousClockImpl.sleep(until: deadline.getTickTimeMS())
+    }
+
+    func sleep(for duration: Instant.Duration, tolerance: Instant.Duration? = nil) async throws(CancellationError) {
+        try await sleep(until: now.advanced(by: duration), tolerance: tolerance)
     }
 
     static var now: Instant {
@@ -119,7 +123,7 @@ private enum ContinousClockImpl {
         }
     }
 
-    static func sleep(until timeTickMSDeadline: UInt64) async throws {
+    static func sleep(until timeTickMSDeadline: UInt64) async throws(CancellationError) {
         await withUnsafeContinuation { continuation in
             Self.timers.insertBasedOnDeadline(Timer(deadline: timeTickMSDeadline, continuation: continuation))
             Self.scheduleTasklet()
